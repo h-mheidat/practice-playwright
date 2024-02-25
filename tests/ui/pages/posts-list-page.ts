@@ -30,9 +30,11 @@ export class PostsPage {
 
     async checkListingDetails(element: string) {
         const listItems = await this.listingDetails.all();
+        const elementLowerCase = element.toLowerCase();
         for (const li of listItems) {
             const textContent = await li.textContent();
-            expect(textContent).toContain(element);
+            const textContentLowerCase = textContent?.toLowerCase();
+            expect(textContentLowerCase).toContain(elementLowerCase);
         }
     }
 }

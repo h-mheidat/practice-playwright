@@ -12,7 +12,6 @@ export class HomePage {
     readonly fromYearInput: Locator;
     readonly toYearInput: Locator;
     readonly carCityInput: Locator;
-    readonly ammanCityInput: Locator;
 
 
     constructor(page: Page) {
@@ -21,7 +20,6 @@ export class HomePage {
         this.carSaleIcon = page.getByRole('link', { name: 'Cars For Sale Cars For Sale' });
         this.fromYearInput = page.getByPlaceholder('From');
         this.toYearInput = page.getByPlaceholder('To');
-        this.ammanCityInput = page.getByRole('link', { name: 'Amman', exact: true });
         this.carMakeInput = page.getByPlaceholder('Search For Car Make');
         this.carModelInput = page.getByPlaceholder('Search For Model');
         this.carColorInput = page.getByPlaceholder('Search For Color');
@@ -30,10 +28,14 @@ export class HomePage {
         this.viewMoreButton = page.locator('#viewMoreButton');
     }
 
-    async fillInputAndClick(text: string, locator: Locator) {
+    async fillInputAndClick(text: string, locator: Locator, path?: RegExp) {
         await locator.click();
         await locator.fill(text);
         await this.firstListOption.click();
+        if (!path) {
+            path = new RegExp(text);
+        };
+        await this.page.waitForURL(path, { waitUntil: 'commit' });
     }
 }
 

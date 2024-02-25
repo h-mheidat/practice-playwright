@@ -3,6 +3,7 @@ import { HomePage } from '../pages/home-page';
 import { PostsPage } from './../pages/posts-list-page';
 import { AdsPage } from '../pages/ads-page';
 import { handleNewPage } from '../../utils/page-handler';
+import carData from '../../data/car-sale-data';
 
 const pageURL: string = process.env.URL!;
 let homePage: HomePage;
@@ -16,18 +17,14 @@ test.beforeEach(async ({ page }) => {
   adsPage = new AdsPage(page);
   await homePage.autosIcon.click();
   await homePage.carSaleIcon.click();
-
-  await homePage.fillInputAndClick("ford", homePage.carMakeInput);
-  await page.waitForURL(/ford/, { waitUntil: 'load' });
-
-  await homePage.fillInputAndClick("fusion", homePage.carModelInput);
-  await page.waitForURL(/fusion/, { waitUntil: 'load' });
+  await homePage.fillInputAndClick(carData[0].make, homePage.carMakeInput);
+  await homePage.fillInputAndClick(carData[0].model, homePage.carModelInput);
 });
 
 test.describe('Filter cars for sale tests', () => {
 
   test('Verify the ability to filter cars by thier make and model', async () => {
-    await postsPage.checkListingDetails("Ford , Fusion");
+    await postsPage.checkListingDetails(`${carData[0].make} , ${carData[0].model}`);
   });
 
   test('Verify that the first filterd product is premium or turbo', async () => {
@@ -35,35 +32,24 @@ test.describe('Filter cars for sale tests', () => {
   });
 
   test('Verify the ability to filter cars by thier year', async ({ page }) => {
-
-    await homePage.fillInputAndClick("2018", homePage.fromYearInput);
-    await page.waitForURL(/Car_Year_from/, { waitUntil: 'load' });
-
-    await homePage.fillInputAndClick("2018", homePage.toYearInput);
-    await page.waitForURL(/\/2018/, { waitUntil: 'load' });
-    
+    await homePage.fillInputAndClick(carData[0].fromYear, homePage.fromYearInput);
+    await homePage.fillInputAndClick(carData[0].toYear, homePage.toYearInput, /\/2018/);
     await page.reload();
-    await postsPage.checkListingDetails("2018");
+    await postsPage.checkListingDetails(carData[0].fromYear);
   });
 
   test('Verify the ability to filter cars by thier location', async ({ page }) => {
     await homePage.viewMoreButton.click();
-
-    await homePage.fillInputAndClick("Amman", homePage.carCityInput);;
-    await page.waitForURL(/amman/, { waitUntil: 'commit' });
-
+    await homePage.fillInputAndClick(carData[0].city, homePage.carCityInput);
     const productPage = await handleNewPage(page, postsPage);
-    await expect(productPage.productCity).toHaveText('Amman');
+    await expect(productPage.productCity).toHaveText(carData[0].city, { ignoreCase: true });
   })
 
   test('Verify the ability to filter cars by thier color', async ({ page }) => {
     await homePage.viewMoreButton.click();
-
-    await homePage.fillInputAndClick("Black", homePage.carColorInput);;
-    await page.waitForURL(/Car_Color/, { waitUntil: 'commit' });
-
+    await homePage.fillInputAndClick(carData[0].color, homePage.carColorInput, /Car_Color/);
     const productPage = await handleNewPage(page, postsPage);
-    await expect(productPage.productColor).toHaveText('Black');
+    await expect(productPage.productColor).toHaveText(carData[0].color, { ignoreCase: true });
   })
 
 });
