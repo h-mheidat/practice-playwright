@@ -13,5 +13,5 @@ export class ProductPage {
     }
 
 }
-
+// You already Export It in line 3
 export default ProductPage;

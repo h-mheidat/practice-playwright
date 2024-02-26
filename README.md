@@ -7,3 +7,4 @@ This Repo is for practicing Playwright!
 CI=1
 
 URL="https://jo.opensooq.com/en"
+tell us how to run the tests pls

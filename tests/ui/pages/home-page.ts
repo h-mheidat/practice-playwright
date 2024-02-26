@@ -1,6 +1,7 @@
 import { type Locator, type Page } from '@playwright/test';
 
 export class HomePage {
+    // Alphabetical Sorter
     readonly page: Page;
     readonly autosIcon: Locator;
     readonly carSaleIcon: Locator;
@@ -15,6 +16,7 @@ export class HomePage {
 
 
     constructor(page: Page) {
+        // Alphabetical Sorter
         this.page = page;
         this.autosIcon = page.getByRole('link', { name: 'Category: Autos Autos' });
         this.carSaleIcon = page.getByRole('link', { name: 'Cars For Sale Cars For Sale' });
@@ -39,4 +41,5 @@ export class HomePage {
     }
 }
 
+// You already Export It in line 3
 export default HomePage;

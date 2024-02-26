@@ -1,3 +1,4 @@
+// Alphabetical Sorter
 import { test, expect, type Page } from '@playwright/test';
 import { HomePage } from '../pages/home-page';
 import { AdsPage } from '../pages/ads-page';
@@ -8,6 +9,8 @@ let adsPage: AdsPage;
 
 test.beforeEach(async ({ page }) => {
   await page.goto(pageURL);
+  // why we can not declaration the homePage here?
+  // like `let homePage = new HomePage(page)`
   homePage = new HomePage(page);
   adsPage = new AdsPage(page);
   await homePage.autosIcon.click();
@@ -27,6 +30,4 @@ test.describe('Google Advertisements tests', () => {
   })
 
 });
-
-
-
+// Extra lines

@@ -1,6 +1,7 @@
 import { type Locator, type Page, expect } from '@playwright/test';
 
 export class PostsPage {
+    // Alphabetical Sorter
     readonly page: Page;
     readonly firstListingPost: Locator;
     readonly premiumIcon: Locator;
@@ -39,4 +40,5 @@ export class PostsPage {
     }
 }
 
+// You already Export It in line 3
 export default PostsPage;
